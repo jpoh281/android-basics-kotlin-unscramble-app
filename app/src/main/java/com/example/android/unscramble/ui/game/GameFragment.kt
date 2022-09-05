@@ -49,6 +49,10 @@ class GameFragment : Fragment() {
         // Inflate the layout XML file and return a binding object instance
         binding = GameFragmentBinding.inflate(inflater, container, false)
         Log.d("GameFragment", "GameFragment created/re-created!")
+        Log.d(
+            "GameFragment", "Word: ${viewModel.currentScrambledWord} " +
+                    "Score: ${viewModel.score} WordCount: ${viewModel.currentWordCount}"
+        )
         return binding.root
     }
 
@@ -78,9 +82,9 @@ class GameFragment : Fragment() {
     private fun onSubmitWord() {
         val playerWord = binding.textInputEditText.text.toString()
 
-        if (viewModel.isUserWordCorrect(playerWord)){
+        if (viewModel.isUserWordCorrect(playerWord)) {
             setErrorTextField(false)
-            if(viewModel.nextWord()){
+            if (viewModel.nextWord()) {
                 updateNextWordOnScreen()
             } else {
                 showFinalScoreDialog()
@@ -117,6 +121,7 @@ class GameFragment : Fragment() {
      * restart the game.
      */
     private fun restartGame() {
+        viewModel.reinitializeData()
         setErrorTextField(false)
         updateNextWordOnScreen()
     }
